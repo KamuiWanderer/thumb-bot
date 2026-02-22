@@ -88,7 +88,7 @@ def self_ping_loop():
 # ─────────────────────────────────────────────
 #  TELEGRAM CLIENT
 # ─────────────────────────────────────────────
-bot = TelegramClient("KayiUploader", API_ID, API_HASH).start(bot_token=BOT_TOKEN)
+bot = TelegramClient("KayiUploader", API_ID, API_HASH)
 
 
 # ══════════════════════════════════════════════
@@ -464,25 +464,29 @@ async def handle_links(event):
         )
 
 
-# ══════════════════════════════════════════════
-#  ENTRY POINT
-# ══════════════════════════════════════════════
 
-if __name__ == "__main__":
+
+async def main():
+    await bot.start(bot_token=BOT_TOKEN)
+
     print("━" * 52)
     print("  🖼   YouTube Thumbnail Extractor Bot")
     print("  ✅   watch links + img.youtube.com links")
     print("  ✅   Rich captions • Named JPG docs • Batch")
     print("  📡   FastMotion M3U8 quality expander")
-    print("  🌐   Flask keep-alive server starting…")
-    print("  🔁   Self-ping loop starting…")
+    print("  🌐   Flask keep-alive server running…")
+    print("  🔁   Self-ping loop running…")
     print("  🔴   Waiting for links…")
     print("━" * 52)
 
+    await bot.run_until_disconnected()
+
+
+if __name__ == "__main__":
     # Start Flask web server in background thread (keeps Render awake)
     threading.Thread(target=run_flask, daemon=True).start()
 
     # Start self-ping loop in background thread
     threading.Thread(target=self_ping_loop, daemon=True).start()
 
-    bot.run_until_disconnected()
+    asyncio.run(main())
