@@ -1,0 +1,16 @@
+services:
+  - type: web               # web service so Render exposes an HTTP port (needed for keep-alive)
+    name: thumb-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: API_ID
+        sync: false         # set manually in Render dashboard → Environment
+      - key: API_HASH
+        sync: false
+      - key: BOT_TOKEN
+        sync: false
+      - key: RENDER_URL
+        sync: false         # set to your service URL, e.g. https://thumb-bot.onrender.com
+    autoDeploy: true        # redeploy on every git push to main
