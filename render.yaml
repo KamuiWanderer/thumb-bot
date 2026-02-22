@@ -1,0 +1,14 @@
+services:
+  - type: worker          # background worker, no HTTP port needed
+    name: thumb-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: API_ID
+        sync: false       # set manually in Render dashboard
+      - key: API_HASH
+        sync: false
+      - key: BOT_TOKEN
+        sync: false
+    autoDeploy: true      # redeploy automatically on every git push
